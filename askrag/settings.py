@@ -158,15 +158,17 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+
+        # 'rest_framework.authentication.TokenAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
     ],
 }
 
 
 SPECTACULAR_SETTINGS = {
     'TITLE': 'My Project APIs',
-    'DESCRIPTION': 'RAG API for document processing, vector search, and question answering.',
+    'DESCRIPTION': 'My RAG API for document processing, vector search, and question answering.',
     'VERSION': '1.0.0',
 
     # Show schema endpoint inside Swagger
@@ -178,7 +180,7 @@ SPECTACULAR_SETTINGS = {
             'type': 'http',
             'scheme': 'bearer',
             'bearerFormat': 'JWT',
-            'description': 'Enter your JWT token as: **Bearer &lt;token&gt;**',
+            'description': 'Enter your JWT token as: **Bearer <token>**',
         },
     },
 
@@ -191,6 +193,10 @@ SPECTACULAR_SETTINGS = {
         {'url': 'http://127.0.0.1:8000', 'description': 'Local development'},
         {'url': 'https://your-production-url.com', 'description': 'Production server'},
     ],
+
+    "SWAGGER_UI_SETTINGS": {
+        "persistAuthorization": True,  # keeps token after refresh
+    },
 
     # Optional: tag-based grouping
     # 'TAGS': [

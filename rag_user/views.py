@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.core.mail import EmailMultiAlternatives
 from django.shortcuts import redirect
 from django.conf import settings
-
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 
 User = get_user_model()
 
@@ -21,6 +21,7 @@ User = get_user_model()
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    parser_classes = [MultiPartParser, FormParser, JSONParser] 
 
 
 class RegistrationViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
@@ -70,3 +71,15 @@ def activate(request,uid64,token):
         return HttpResponse("Activation link is invalid or expired.")
     #     return redirect("http://127.0.0.1:8000/login")
     # return redirect("http://127.0.0.1:8000/register")
+
+class ProfileViewSet(viewsets.ModelViewSet):
+    serializer_class = UserSerializer
+    permission_classes = [AllowAny] 
+    
+    def get_queryset(self):
+        # Return only the logged-in user's profile
+        return User.objects.filter(id=self.request.user.id)
+
+    def perform_update(self, serializer):
+        # Optional: ensure users can only update themselves
+        serializer.save(id=self.request.user.id)

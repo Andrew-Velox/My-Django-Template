@@ -44,3 +44,23 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+# class UserUpdateSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = User
+#         fields = ['first_name', 'last_name', 'email', 'image']
+
+
+# class PasswordChangeSerializer(serializers.Serializer):
+#     old_password = serializers.CharField(required=True)
+#     new_password = serializers.CharField(required=True)
+#     confirm_new_password = serializers.CharField(required=True)
+#     def validate(self, data):
+#         new_password = data.get('new_password')
+#         confirm_new_password = data.get('confirm_new_password')
+        
+#         if new_password != confirm_new_password:
+#             raise serializers.ValidationError({'confirm_new_password': "New passwords don't match."})
+        
+#         return data
+    
