@@ -5,11 +5,11 @@ from django.contrib.auth.admin import UserAdmin
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        ('Profile Information', {'fields': ('image',)}),
+        ('Profile Information', {'fields': ('image','gender','birth_date','is_verified')}),
     )
     
     add_fieldsets = UserAdmin.add_fieldsets + (
-        ('Profile Information', {'fields': ('image',)}),
+        ('Profile Information', {'fields': ('image','gender','birth_date','is_verified')}),
     )
 
 

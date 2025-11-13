@@ -7,7 +7,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'image']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'image','gender','birth_date','is_verified']
 
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -45,22 +45,32 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-# class UserUpdateSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = User
-#         fields = ['first_name', 'last_name', 'email', 'image']
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'image','birth_date','gender']
 
 
-# class PasswordChangeSerializer(serializers.Serializer):
-#     old_password = serializers.CharField(required=True)
-#     new_password = serializers.CharField(required=True)
-#     confirm_new_password = serializers.CharField(required=True)
-#     def validate(self, data):
-#         new_password = data.get('new_password')
-#         confirm_new_password = data.get('confirm_new_password')
+class PasswordChangeSerializer(serializers.Serializer):
+    new_password = serializers.CharField(write_only=True, required=True)
+    confirm_password = serializers.CharField(write_only=True, required=True)
+
+    def validate(self, data):
+        new_password = data.get('new_password')
+        confirm_password = data.get('confirm_password')
         
-#         if new_password != confirm_new_password:
-#             raise serializers.ValidationError({'confirm_new_password': "New passwords don't match."})
+        if new_password != confirm_password:
+            raise serializers.ValidationError({'confirm_password': "Passwords don't match."})
         
-#         return data
+        return data
     
+
+class ProfileDeleteSerializer(serializers.Serializer):
+    password = serializers.CharField(write_only=True, required=True)
+
+    def validate_password(self, value):
+        user = self.context['request'].user
+
+        if not user.check_password(value):
+            raise serializers.ValidationError("Incorrect password.")
+        return value
