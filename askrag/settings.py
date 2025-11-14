@@ -190,8 +190,8 @@ SPECTACULAR_SETTINGS = {
 
     # Optional extra info
     'SERVERS': [
+        {'url': 'https://my-django-template.onrender.com', 'description': 'Production server'},
         {'url': 'http://127.0.0.1:8000', 'description': 'Local development'},
-        {'url': 'https://your-production-url.com', 'description': 'Production server'},
     ],
 
     "SWAGGER_UI_SETTINGS": {

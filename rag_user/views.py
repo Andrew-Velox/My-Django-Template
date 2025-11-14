@@ -93,21 +93,23 @@ class RegistrationViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            # Use the request to build the absolute URL
-            confirm_link = request.build_absolute_uri(f'/user/account/active/{uid}/{token}')
+            confirm_link = f"https://my-django-template.onrender.com/user/account/active/{uid}/{token}"
 
-            email_subject = "confirm Your Email"
+            email_subject = "Confirm Your Email"
             email_body = render_to_string('confirm_account_email.html',{'confirm_link':confirm_link})
 
             email = EmailMultiAlternatives(email_subject,"",from_email=settings.EMAIL_HOST_USER,to=[user.email])
             email.attach_alternative(email_body,"text/html")
             try:
                 email.send()
-                print(f"Email sent successfully to {user.email}")  # Check console
+                print(f"Email sent successfully to {user.email}")
                 return Response({"message": "Check Your Mail for Confirmation"}, status=status.HTTP_201_CREATED)
             except Exception as e:
-                print(f"Email Error: {str(e)}")  # Check console
+                print(f"Email Error: {str(e)}")
                 return Response({"message": "User created but email failed to send", "error": str(e)}, status=status.HTTP_201_CREATED)
+        
+        # Log validation errors for debugging
+        print(f"Registration validation errors: {serializer.errors}")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 
