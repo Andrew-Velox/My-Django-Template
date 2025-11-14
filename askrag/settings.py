@@ -207,13 +207,16 @@ SPECTACULAR_SETTINGS = {
 }
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Email Configuration
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.EmailBackend")
+
+# Gmail SMTP Configuration
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))  # Try 465 if 587 doesn't work
+EMAIL_USE_TLS = os.getenv("EMAIL_PORT", "587") == "587"
+EMAIL_USE_SSL = os.getenv("EMAIL_PORT", "587") == "465"
 EMAIL_HOST_USER = os.getenv("EMAIL")
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
 DEFAULT_FROM_EMAIL = os.getenv("EMAIL")
-
-# Add timeout for email operations
 EMAIL_TIMEOUT = 10  # seconds
