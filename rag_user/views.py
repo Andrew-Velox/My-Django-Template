@@ -93,7 +93,8 @@ class RegistrationViewSet(mixins.CreateModelMixin,viewsets.GenericViewSet):
             token = default_token_generator.make_token(user)
             uid = urlsafe_base64_encode(force_bytes(user.pk))
 
-            confirm_link = f"http://127.0.0.1:8000/user/account/active/{uid}/{token}"
+            # Use the request to build the absolute URL
+            confirm_link = request.build_absolute_uri(f'/user/account/active/{uid}/{token}')
 
             email_subject = "confirm Your Email"
             email_body = render_to_string('confirm_account_email.html',{'confirm_link':confirm_link})
