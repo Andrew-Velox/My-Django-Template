@@ -20,7 +20,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 CSRF_TRUSTED_ORIGINS = [
-    'https://shopdrf-production.up.railway.app',
+    'https://my-django-template.onrender.com',
     'https://*.127.0.0.1',
 
     ]
