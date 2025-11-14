@@ -213,7 +213,7 @@ EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.smtp.Email
 
 # Gmail SMTP Configuration
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", "587"))  # Try 465 if 587 doesn't work
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", "465"))  # Try 465 if 587 doesn't work
 EMAIL_USE_TLS = os.getenv("EMAIL_PORT", "587") == "587"
 EMAIL_USE_SSL = os.getenv("EMAIL_PORT", "587") == "465"
 EMAIL_HOST_USER = os.getenv("EMAIL")
